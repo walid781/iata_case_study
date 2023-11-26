@@ -67,8 +67,8 @@ provider:
 
 functions:
   hello:
-    handler: handler.lambda_handler
-    module: data_ingestion
+    handler: data_ingestion.handler.lambda_handler
+    # module: data_ingestion
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
 #    Check the event documentation for details
