@@ -25,7 +25,11 @@ frameworkVersion: '3'
 #   - serverless-python-requirements
 
 custom:
+  log_level: 'INFO'
   bucket_name: "s3-walid-iata-case-study"
+  zip_path: 'ZIP/'
+  raw_path: 'RAW/'
+  cleaned_path: 'CLEANED/'
   lambda_prefix: "lambda-iata-cs"
   role_prefix: "role-iata-cs"
   policy_prefix: "policy-iata-cs"
@@ -88,7 +92,33 @@ functions:
       - arn:aws:lambda:eu-central-1:336392948345:layer:AWSSDKPandas-Python311:2
     environment:
       BUCKET_NAME: ${self:custom.bucket_name}
-      LOG_LEVEL: 'INFO'
+      ZIP_PATH: ${self:custom.zip_path}
+      RAW_PATH: ${self:custom.raw_path}
+      CLEANED_PATH: ${self:custom.cleaned_path}
+      LOG_LEVEL: ${self:custom.log_level}
+
+   data-extraction:
+    handler: data_extraction.handler.lambda_handler
+    name: ${self:custom.lambda_prefix}-data-extraction
+    role: lambdaRole
+    timeout: 300
+    # memorySize: 2048
+    layers:
+      - arn:aws:lambda:eu-central-1:336392948345:layer:AWSSDKPandas-Python311:2
+    environment:
+      BUCKET_NAME: ${self:custom.bucket_name}
+      ZIP_PATH: ${self:custom.zip_path}
+      RAW_PATH: ${self:custom.raw_path}
+      CLEANED_PATH: ${self:custom.cleaned_path}
+      LOG_LEVEL: ${self:custom.log_level}
+    events:
+      - s3:
+          bucket: ${self:custom.bucket_name}
+          event: s3:ObjectCreated:*
+          rules:
+            - prefix: ${self:custom.zip_path}
+            - suffix: .zip
+          existing: true
 
 
 
