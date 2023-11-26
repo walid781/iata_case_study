@@ -86,7 +86,7 @@ functions:
       - arn:aws:lambda:eu-central-1:336392948345:layer:AWSSDKPandas-Python311:2
     environment:
       BUCKET_NAME: ${self:custom.bucket_name}
-
+      LOG_LEVEL: 'INFO'
 
 
 
