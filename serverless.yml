@@ -12,9 +12,7 @@
 # Happy Coding!
 
 service: iata-case-study
-deploymentBucket:
-    name: iata-case-study-custom-deployment-bucket
-    serverSideEncryption: aws:kms
+
 # app and org for use with dashboard.serverless.com
 #app: your-app-name
 #org: your-org-name
@@ -41,6 +39,9 @@ provider:
   name: aws
   region: eu-central-1
   runtime: python3.11
+  deploymentBucket:
+    name: iata-case-study-custom-deployment-bucket
+    serverSideEncryption: aws:kms
 
 # you can overwrite defaults here
 #  stage: dev
