@@ -4,10 +4,14 @@ from utils import s3_utils
 url = 'https://eforexcel.com/wp/wp-content/uploads/2020/09/2m-Sales-Records.zip'
 bucket_name = os.getenv('BUCKET_NAME')
 
+headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}
+
+
 def lambda_handler(event, context):
    
 
-    res = requests.get(url)
+    res = requests.get(url, headers=headers)
+    print(res.status_code)
 
     if res.status_code == 200:
         s3_utils.put_object(bucket_name, 'RAW/file.zip', body=res.content)
