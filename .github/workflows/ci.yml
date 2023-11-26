@@ -43,6 +43,6 @@ jobs:
           aws-region: eu-central-1
 
       - name: DeployResources
-        use: serverless/github-action@v3.2
+        uses: serverless/github-action@v3.2
         with:
           args: deploy
