@@ -80,6 +80,8 @@ provider:
 functions:
   hello:
     handler: data_ingestion.handler.lambda_handler
+    name: ${self:custom.lambda_prefix}-data-ingestion
+    role: lambdaRole
     # module: data_ingestion
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
@@ -135,3 +137,4 @@ functions:
 
 resources:
   - ${file(s3-bucket.yml)}
+  - ${file(iam.yml)}
