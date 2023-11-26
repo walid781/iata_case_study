@@ -23,6 +23,14 @@ frameworkVersion: '3'
 # plugins:
 #   - serverless-python-requirements
 
+custom:
+  bucket_name: "s3-walid-iata-case-study"
+  lambda_prefix: "lambda-iata-cs"
+  role_prefix: "role-iata-cs"
+  policy_prefix: "policy-iata-cs"
+  pythonRequirements:
+    pythonBin: python3
+
 package:
   individually: true
 

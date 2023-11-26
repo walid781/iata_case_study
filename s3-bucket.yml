@@ -1,0 +1,8 @@
+Resources:
+  S3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: ${self:custom.bucket_name}
+      VersioningConfiguration:
+        Status: Enabled
+    DeletionPolicy: Retain
