@@ -23,5 +23,5 @@ Resources:
                 Action: 
                   - "s3:*"
                 Resource:
-                  - '${self:custom.bucket_name}'
-                  - '${self:custom.bucket_name}/*'
+                  - 'arn:aws:s3:::${self:custom.bucket_name}'
+                  - 'arn:aws:s3:::${self:custom.bucket_name}/*'
