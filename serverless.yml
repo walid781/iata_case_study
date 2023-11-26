@@ -20,8 +20,8 @@ service: iata-case-study
 # Check out our docs for more details
 frameworkVersion: '3'
 
-plugins:
-  - serverless-python-requirements
+# plugins:
+#   - serverless-python-requirements
   
 provider:
   name: aws
