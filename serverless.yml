@@ -83,7 +83,9 @@ functions:
     name: ${self:custom.lambda_prefix}-data-ingestion
     role: lambdaRole
     layers:
-      -arn:aws:lambda:eu-central-1:336392948345:layer:AWSSDKPandas-Python311:2
+      - arn:aws:lambda:eu-central-1:336392948345:layer:AWSSDKPandas-Python311:2
+    environment:
+      BUCKET_NAME: ${self:custom.bucket_name}
 
 
 
