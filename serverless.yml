@@ -43,9 +43,9 @@ provider:
   name: aws
   region: eu-central-1
   runtime: python3.11
-  # deploymentBucket:
-  #   name: iata-case-study-custom-deployment-bucket
-  #   serverSideEncryption: aws:kms
+  deploymentBucket:
+    name: s3-iata-case-study-deployment-bucket
+    serverSideEncryption: aws:kms
 
 # you can overwrite defaults here
 #  stage: dev
