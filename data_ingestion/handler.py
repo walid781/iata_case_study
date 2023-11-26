@@ -1,11 +1,15 @@
-import json
+import json, os, requests, boto3
+from utils import s3_utils
 
+url = 'https://eforexcel.com/wp/wp-content/uploads/2020/09/2m-Sales-Records.zip'
 
 def lambda_handler(event, context):
-    body = {
-        "message": "Go Serverless v1.0! Your function executed successfully!",
-        "input": event
-    }
+   
+
+    res = requests.get(url)
+
+
+
 
     response = {
         "statusCode": 200,
