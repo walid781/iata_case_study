@@ -10,11 +10,17 @@ headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleW
 def lambda_handler(event, context):
    
 
-    print(event)
+    res = requests.get(url, headers=headers)
+    print(res.status_code)
+
+    if res.status_code == 200:
+        s3_utils.put_object(bucket_name, f'{os.getenv("ZIP_PATH")}file.zip', body=res.content)
+
+
 
     response = {
         "statusCode": 200,
-        "body": json.dumps(event)
+        "body": json.dumps('body')
     }
 
     return response
