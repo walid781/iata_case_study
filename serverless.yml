@@ -78,10 +78,12 @@ provider:
 #    - include-me-dir/**
 
 functions:
-  hello:
+  data-ingestion:
     handler: data_ingestion.handler.lambda_handler
     name: ${self:custom.lambda_prefix}-data-ingestion
     role: lambdaRole
+    timeout: 300
+    # memorySize: 2048
     layers:
       - arn:aws:lambda:eu-central-1:336392948345:layer:AWSSDKPandas-Python311:2
     environment:
