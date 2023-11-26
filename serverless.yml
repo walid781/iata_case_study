@@ -97,7 +97,7 @@ functions:
       CLEANED_PATH: ${self:custom.cleaned_path}
       LOG_LEVEL: ${self:custom.log_level}
 
-   data-extraction:
+  data-extraction:
     handler: data_extraction.handler.lambda_handler
     name: ${self:custom.lambda_prefix}-data-extraction
     role: lambdaRole
