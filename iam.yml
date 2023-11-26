@@ -1,0 +1,27 @@
+Resources:
+  lambdaRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: ${self:custom.role_prefix}-lambda-role
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+      Policies:
+        - PolicyName: ${self:custom.policy_prefix}-s3-data-access
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action: 
+                  - "s3:*"
+                Resource:
+                  - '${self:custom.bucket_name}'
+                  - '${self:custom.bucket_name}/*'
