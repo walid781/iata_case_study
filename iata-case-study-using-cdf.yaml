@@ -198,6 +198,20 @@ Resources:
                   - Name: suffix
                     Value: .zip
     DeletionPolicy: Retain
+  
+  ExtractionLambdaPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: *
+      FunctionName: !GetAtt
+        - LambdaDataExtraction
+        - Arn
+      Principal: s3.amazonaws.com
+      SourceAccount: !Ref AWS::AccountId
+      SourceArn: !GetAtt
+        - S3Bucket
+        - Arn
+
   lambdaRole:
     Type: 'AWS::IAM::Role'
     Properties:
