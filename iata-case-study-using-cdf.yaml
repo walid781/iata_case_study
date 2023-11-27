@@ -10,7 +10,7 @@ Parameters:
 Mappings:
   nameing:
     lambda:
-      prefix: apriso-devhive-resources
+      prefix: lambda-cdf-iata-cs
     role:
       prefix: role-cdf-iata-cs
     policy:
@@ -191,7 +191,7 @@ Resources:
       SourceArn: !GetAtt
         - S3Bucket
         - Arn
-        
+
   S3Bucket:
     Type: 'AWS::S3::Bucket'
     Properties:
