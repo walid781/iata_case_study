@@ -7,16 +7,16 @@ Parameters:
     Type: String
   lambda_prefix:
     Type: String 
-    Default: "lambda-cdf-iata-cs"
+    Default: "lambda_cdf_iata_cs"
   role_prefix: 
     Type: String 
-    Default: "role-cdf-iata-cs"
+    Default: "role_cdf_iata_cs"
   policy_prefix: 
     Type: String 
-    Default: "policy-cdf-iata-cs"
+    Default: "policy_cdf_iata_cs"
   dataBucket: 
     Type: String 
-    Default: "s3-cdf-walid-iata-case-study"
+    Default: "s3_cdf_walid_iata_case_study"
 
 
 AWSTemplateFormatVersion: 2010-09-09
