@@ -9,7 +9,7 @@ s3 = boto3.resource("s3")
 def get_object(bucket_name, filename):
     try:
         obj  = s3.Object(bucket_name=bucket_name, key=filename)
-        return obj.get()['Body'].read().decode()
+        return obj.get()['Body'].read()
     except ClientError as ex:
         if ex.response['Error']['Code'] == 'NoSuchKey':
             logger.error(f'The file {filename} does not exist in the bucket {bucket_name}')
@@ -25,7 +25,7 @@ def put_object(bucket_name, filename, body = ''):
 def get_object_as_json(bucket_name, filename):
     content = get_object(bucket_name, filename)
     if content:
-        return json.loads(content)
+        return json.loads(content.decode())
     else:
         return {} 
 

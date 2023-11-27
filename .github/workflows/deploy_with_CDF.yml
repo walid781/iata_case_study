@@ -1,7 +1,16 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CI
+name: Deploy with CDF
 
+inputs:
+  deploymentBucket:
+    description: 'Bucket contain lambda zip'
+    required: false
+    default: 's3-iata-case-study-deployment-bucket'
+  lambdaZipPath:
+    description: 'The zip package for the lambda'
+    required: false
+    default: 'package/lambda.zip'
 # Controls when the workflow will run
 on:
   # Triggers the workflow on push or pull request events but only for the "main" branch
@@ -16,7 +25,7 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
-  build:
+  build_and_test:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -42,7 +51,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: eu-central-1
 
-      - name: DeployResources
-        uses: serverless/github-action@v3.2
-        with:
-          args: deploy
+      - name: create and upload package
+        run: |
+          zip -r lambda.zip lambda
+          aws s3 cp lambda.zip s3://${{inputs.deploymentBucket}}/${{inputs.lambdaZipPath}}
