@@ -2,22 +2,26 @@
 
 name: Deploy with CDF
 
-inputs:
-  deploymentBucket:
-    description: 'Bucket contain lambda zip'
-    required: false
-    default: 's3-iata-case-study-deployment-bucket'
-  lambdaZipPath:
-    description: 'The zip package for the lambda'
-    required: false
-    default: 'package/lambda.zip'
+
 # Controls when the workflow will run
 on:
   # Triggers the workflow on push or pull request events but only for the "main" branch
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+  # push:
+  #   branches: [ "main" ]
+  # pull_request:
+  #   branches: [ "main" ]
+  
+  workflow_dispatch:
+    inputs:
+      deploymentBucket:
+        description: 'Bucket contain lambda zip'
+        required: false
+        default: 's3-iata-case-study-deployment-bucket'
+      lambdaZipPath:
+        description: 'The zip package for the lambda'
+        required: false
+        default: 'package/lambda.zip'
+
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
