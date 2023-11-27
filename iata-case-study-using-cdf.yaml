@@ -1,0 +1,224 @@
+Parameters:
+  deploymentBucket:
+    Description: Name of the deployment bucket
+    Type: String
+  lambdaZipPath:
+    Description: path of lambda package
+    Type: String
+  lambda_prefix:
+    Type: String 
+    Default: "lambda-cdf-iata-cs"
+  role_prefix: 
+    Type: String 
+    Default: "role-cdf-iata-cs"
+  policy_prefix: 
+    Type: String 
+    Default: "policy-cdf-iata-cs"
+  dataBucket: 
+    Type: String 
+    Default: "s3-cdf-walid-iata-case-study"
+
+
+AWSTemplateFormatVersion: 2010-09-09
+Description: The AWS CloudFormation template for this Serverless application
+Resources:
+  # DataDashingestionLogGroup:
+  #   Type: 'AWS::Logs::LogGroup'
+  #   Properties:
+  #     LogGroupName: /aws/lambda/lambda-iata-cs-data-ingestion
+  # DataDashextractionLogGroup:
+  #   Type: 'AWS::Logs::LogGroup'
+  #   Properties:
+  #     LogGroupName: /aws/lambda/lambda-iata-cs-data-extraction
+  LambdaDataIngestion:
+    Type: 'AWS::Lambda::Function'
+    Properties:
+      Code:
+        S3Bucket: !Ref deploymentBucket
+        S3Key: !Ref lambdaZipPath
+      Handler: lambda.data_ingestion.handler.lambda_handler
+      Runtime: python3.11
+      FunctionName: !Sub 
+        - '${lambda_prefix}-data-ingestion'
+        - lambda_prefix: !Ref lambda_prefix
+  
+      MemorySize: 1024
+      Timeout: 300
+      Environment:
+        Variables:
+          BUCKET_NAME: s3-walid-iata-case-study
+          ZIP_PATH: ZIP/
+          RAW_PATH: RAW/
+          CLEANED_PATH: CLEANED/
+          LOG_LEVEL: INFO
+      Role: !GetAtt 
+        - lambdaRole
+        - Arn
+      Layers:
+        - arn:aws:lambda:eu-central-1:336392948345:layer:AWSSDKPandas-Python311:2
+    DependsOn:
+      - lambdaRole
+
+  LambdaDataExtraction:
+    Type: 'AWS::Lambda::Function'
+    Properties:
+      Code:
+        S3Bucket: !Ref deploymentBucket
+        S3Key: !Ref lambdaZipPath
+      Handler: lambda.data_extraction.handler.lambda_handler
+      Runtime: python3.11
+      FunctionName: !Sub 
+        - '${lambda_prefix}-data-extraction'
+        - lambda_prefix: !Ref lambda_prefix
+      MemorySize: 1024
+      Timeout: 300
+      Environment:
+        Variables:
+          BUCKET_NAME: s3-walid-iata-case-study
+          ZIP_PATH: ZIP/
+          RAW_PATH: RAW/
+          CLEANED_PATH: CLEANED/
+          LOG_LEVEL: INFO
+      Role: !GetAtt 
+        - lambdaRole
+        - Arn
+      Layers:
+        - arn:aws:lambda:eu-central-1:336392948345:layer:AWSSDKPandas-Python311:2
+    DependsOn:
+      - lambdaRole
+  # DataDashingestionLambdaVersionqSJEItrDBhSBnpLDjLbS9T03RtGsAxPietwiaHqkAxQ:
+  #   Type: 'AWS::Lambda::Version'
+  #   DeletionPolicy: Retain
+  #   Properties:
+  #     FunctionName: !Ref DataDashingestionLambdaFunction
+  #     CodeSha256: g46eTSOM6oYMIPla7Gi0KVMePXVtOeTX9b1u10/9E+c=
+  # DataDashextractionLambdaVersionKKLAv513CuQkm8GemiHi8SY5fPwU2P7GpxYp9LyxpZs:
+  #   Type: 'AWS::Lambda::Version'
+  #   DeletionPolicy: Retain
+  #   Properties:
+  #     FunctionName: !Ref DataDashextractionLambdaFunction
+  #     CodeSha256: g46eTSOM6oYMIPla7Gi0KVMePXVtOeTX9b1u10/9E+c=
+  # DataDashextractionCustomS31:
+  #   Type: 'Custom::S3'
+  #   Version: 1
+  #   DependsOn:
+  #     - DataDashextractionLambdaFunction
+  #     - CustomDashresourceDashexistingDashs3LambdaFunction
+  #   Properties:
+  #     ServiceToken: !GetAtt 
+  #       - CustomDashresourceDashexistingDashs3LambdaFunction
+  #       - Arn
+  #     FunctionName: lambda-iata-cs-data-extraction
+  #     BucketName: s3-walid-iata-case-study
+  #     BucketConfigs:
+  #       - Event: 's3:ObjectCreated:*'
+  #         Rules:
+  #           - Prefix: ZIP/
+  #           - Suffix: .zip
+  # IamRoleCustomResourcesLambdaExecution:
+  #   Type: 'AWS::IAM::Role'
+  #   Properties:
+  #     AssumeRolePolicyDocument:
+  #       Version: 2012-10-17
+  #       Statement:
+  #         - Effect: Allow
+  #           Principal:
+  #             Service:
+  #               - lambda.amazonaws.com
+  #           Action:
+  #             - 'sts:AssumeRole'
+  #     Policies:
+  #       - PolicyName: !Join 
+  #           - '-'
+  #           - - dev
+  #             - iata-case-study
+  #             - custom-resources-lambda
+  #         PolicyDocument:
+  #           Version: 2012-10-17
+  #           Statement:
+  #             - Effect: Allow
+  #               Resource: !Join 
+  #                 - ':'
+  #                 - - arn
+  #                   - !Ref 'AWS::Partition'
+  #                   - s3
+  #                   - ''
+  #                   - ''
+  #                   - s3-walid-iata-case-study
+  #               Action:
+  #                 - 's3:PutBucketNotification'
+  #                 - 's3:GetBucketNotification'
+  #             - Effect: Allow
+  #               Resource: !Join 
+  #                 - ':'
+  #                 - - arn
+  #                   - !Ref 'AWS::Partition'
+  #                   - lambda
+  #                   - !Ref 'AWS::Region'
+  #                   - !Ref 'AWS::AccountId'
+  #                   - function
+  #                   - '*'
+  #               Action:
+  #                 - 'lambda:AddPermission'
+  #                 - 'lambda:RemovePermission'
+  # CustomDashresourceDashexistingDashs3LambdaFunction:
+  #   Type: 'AWS::Lambda::Function'
+  #   Properties:
+  #     Code:
+  #       S3Bucket: s3-iata-case-study-deployment-bucket
+  #       S3Key: >-
+  #         serverless/iata-case-study/dev/1701101236141-2023-11-27T16:07:16.141Z/custom-resources.zip
+  #     FunctionName: iata-case-study-dev-custom-resource-existing-s3
+  #     Handler: s3/handler.handler
+  #     MemorySize: 1024
+  #     Runtime: nodejs16.x
+  #     Timeout: 180
+  #     Role: !GetAtt 
+  #       - IamRoleCustomResourcesLambdaExecution
+  #       - Arn
+  #   DependsOn:
+  #     - IamRoleCustomResourcesLambdaExecution
+  S3Bucket:
+    Type: 'AWS::S3::Bucket'
+    Properties:
+      BucketName: !Ref dataBucket
+      VersioningConfiguration:
+        Status: Enabled
+    DeletionPolicy: Retain
+  lambdaRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      RoleName: !Sub 
+        - '${role_prefix}-lambda-role'
+        - role_prefix: !Ref role_prefix
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      ManagedPolicyArns:
+        - 'arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole'
+      Policies:
+        - PolicyName: policy-iata-cs-s3-data-access
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 's3:*'
+                Resource:
+                  - !Sub 
+                    - 'arn:aws:s3:::${dataBucket}'
+                    - dataBucket: !Ref dataBucket
+                  - !Sub 
+                    - 'arn:aws:s3:::${dataBucket}/*'
+                    - dataBucket: !Ref dataBucket
+Outputs:
+  ServerlessDeploymentBucketName:
+    Value: s3-iata-case-study-deployment-bucket
+    Export:
+      Name: sls-iata-case-study-dev-ServerlessDeploymentBucketName
