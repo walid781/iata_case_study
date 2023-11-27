@@ -202,7 +202,7 @@ Resources:
   ExtractionLambdaPermission:
     Type: AWS::Lambda::Permission
     Properties:
-      Action: *
+      Action: '*'
       FunctionName: !GetAtt
         - LambdaDataExtraction
         - Arn
