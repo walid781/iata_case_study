@@ -1,3 +1,4 @@
+AWSTemplateFormatVersion: 2010-09-09
 Parameters:
   deploymentBucket:
     Description: Name of the deployment bucket
@@ -5,21 +6,20 @@ Parameters:
   lambdaZipPath:
     Description: path of lambda package
     Type: String
-  lambda_prefix:
-    Type: String 
-    Default: lambda
-  role_prefix: 
-    Type: String 
-    Default: role-cdf-iata-cs
-  policy_prefix: 
-    Type: String 
-    Default: policy-cdf-iata-cs
-  dataBucket: 
-    Type: String 
-    Default: s3-cdf-walid-iata-case-study
+
+Mappings:
+  nameing:
+    lambda:
+      prefix: apriso-devhive-resources
+    role:
+      prefix: role-cdf-iata-cs
+    policy:
+      prefix: policy-cdf-iata-cs
+    dataBucket:
+      name:  s3-cdf-walid-iata-case-study
 
 
-AWSTemplateFormatVersion: 2010-09-09
+
 Description: The AWS CloudFormation template for this Serverless application
 Resources:
   # DataDashingestionLogGroup:
@@ -40,13 +40,13 @@ Resources:
       Runtime: python3.11
       FunctionName: !Sub 
         - '${lambda_prefix}-data-ingestion'
-        - lambda_prefix: !Ref lambda_prefix
+        - lambda_prefix: !FindInMap [ nameing, lambda, prefix]
   
       MemorySize: 1024
       Timeout: 300
       Environment:
         Variables:
-          BUCKET_NAME: s3-walid-iata-case-study
+          BUCKET_NAME: !FindInMap [ nameing, dataBucket, name]
           ZIP_PATH: ZIP/
           RAW_PATH: RAW/
           CLEANED_PATH: CLEANED/
@@ -69,7 +69,7 @@ Resources:
       Runtime: python3.11
       FunctionName: !Sub 
         - '${lambda_prefix}-data-extraction'
-        - lambda_prefix: !Ref lambda_prefix
+        - lambda_prefix: !FindInMap [ nameing, lambda, prefix]
       MemorySize: 1024
       Timeout: 300
       Environment:
@@ -181,7 +181,7 @@ Resources:
   S3Bucket:
     Type: 'AWS::S3::Bucket'
     Properties:
-      BucketName: !Ref dataBucket
+      BucketName: !FindInMap [ nameing, dataBucket, name]
       VersioningConfiguration:
         Status: Enabled
     DeletionPolicy: Retain
@@ -190,7 +190,7 @@ Resources:
     Properties:
       RoleName: !Sub 
         - '${role_prefix}-lambda-role'
-        - role_prefix: !Ref role_prefix
+        - role_prefix: !FindInMap [ nameing, role, prefix]
       AssumeRolePolicyDocument:
         Version: 2012-10-17
         Statement:
@@ -203,7 +203,9 @@ Resources:
       ManagedPolicyArns:
         - 'arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole'
       Policies:
-        - PolicyName: policy-iata-cs-s3-data-access
+        - PolicyName: !Sub 
+          - '${policy_prefix}-s3-data-access'
+          - policy_prefix: !FindInMap [ nameing, policy, prefix]
           PolicyDocument:
             Version: 2012-10-17
             Statement:
@@ -213,10 +215,10 @@ Resources:
                 Resource:
                   - !Sub 
                     - 'arn:aws:s3:::${dataBucket}'
-                    - dataBucket: !Ref dataBucket
+                    - dataBucket: !FindInMap [ nameing, dataBucket, name]
                   - !Sub 
                     - 'arn:aws:s3:::${dataBucket}/*'
-                    - dataBucket: !Ref dataBucket
+                    - dataBucket: !FindInMap [ nameing, dataBucket, name]
 Outputs:
   ServerlessDeploymentBucketName:
     Value: s3-iata-case-study-deployment-bucket
