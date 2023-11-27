@@ -182,7 +182,7 @@ Resources:
   ExtractionLambdaPermission:
     Type: AWS::Lambda::Permission
     Properties:
-      Effect: Allow
+      # Effect: Allow
       Action: 'lambda:*'
       FunctionName: !GetAtt
         - LambdaDataExtraction
