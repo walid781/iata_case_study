@@ -7,7 +7,7 @@ Parameters:
     Type: String
   lambda_prefix:
     Type: String 
-    Default: "lambda_cdf_iata_cs"
+    Default: "lambda"
   role_prefix: 
     Type: String 
     Default: "role_cdf_iata_cs"
