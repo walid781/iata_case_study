@@ -199,19 +199,19 @@ Resources:
       BucketName: !FindInMap [ nameing, dataBucket, name]
       VersioningConfiguration:
         Status: Suspended
-      NotificationConfiguration:
-        LambdaConfigurations:
-          - Event: s3:ObjectCreated:*
-            Function: !GetAtt
-              - LambdaDataExtraction
-              - Arn
-            Filter:
-              S3Key:
-                Rules:
-                  - Name: prefix
-                    Value: ZIP/
-                  - Name: suffix
-                    Value: .zip
+      # NotificationConfiguration:
+      #   LambdaConfigurations:
+      #     - Event: s3:ObjectCreated:*
+      #       Function: !GetAtt
+      #         - LambdaDataExtraction
+      #         - Arn
+      #       Filter:
+      #         S3Key:
+      #           Rules:
+      #             - Name: prefix
+      #               Value: ZIP/
+      #             - Name: suffix
+      #               Value: .zip
     DeletionPolicy: Retain
   
   
