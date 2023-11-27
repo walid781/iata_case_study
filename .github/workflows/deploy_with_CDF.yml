@@ -80,7 +80,6 @@ jobs:
         uses: aws-actions/aws-cloudformation-github-deploy@v1
         with:
           name: iata-case-study-using-cdf
-          capabilities:
-            - CAPABILITY_NAMED_IAM
+          capabilities: CAPABILITY_NAMED_IAM
           template: iata-case-study-using-cdf.yaml
           parameter-overrides: "lambdaZipPath=$lambdaZipPath,deploymentBucket=$deploymentBucket"
