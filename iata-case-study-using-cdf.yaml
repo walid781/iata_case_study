@@ -183,7 +183,19 @@ Resources:
     Properties:
       BucketName: !FindInMap [ nameing, dataBucket, name]
       VersioningConfiguration:
-        Status: Enabled
+        Status: Disabled
+      LambdaConfigurations:
+        - Event: s3:ObjectCreated:*
+          Function: !GetAtt
+            - LambdaDataExtraction
+            - Arn
+          Filter:
+            S3Key:
+              Rules:
+                - Name: prefix
+                  Value: ZIP/
+                - Name: suffix
+                  Value: .zip
     DeletionPolicy: Retain
   lambdaRole:
     Type: 'AWS::IAM::Role'
