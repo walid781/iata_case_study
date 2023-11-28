@@ -254,7 +254,7 @@ Resources:
         MaxConcurrentRuns: 1
       # GlueVersion: String
       # LogUri: String
-      # MaxCapacity: Number
+      MaxCapacity: 1
       # MaxRetries: Number
       Name: csv_to_parquet
       # NonOverridableArguments: Json
