@@ -36,7 +36,7 @@ Resources:
       Code:
         S3Bucket: s3-iata-case-study-deployment-bucket
         S3Key: package/lambdas.zip
-      Handler: lambdas.data_ingestion.handler.lambda_handler
+      Handler: data_ingestion.handler.lambda_handler
       Runtime: python3.11
       FunctionName: !Sub 
         - '${lambda_prefix}-data-ingestion'
@@ -65,7 +65,7 @@ Resources:
       Code:
         S3Bucket: s3-iata-case-study-deployment-bucket
         S3Key: package/lambdas.zip
-      Handler: lambdas.data_extraction.handler.lambda_handler
+      Handler: data_extraction.handler.lambda_handler
       Runtime: python3.11
       FunctionName: !Sub 
         - '${lambda_prefix}-data-extraction'
