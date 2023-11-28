@@ -84,11 +84,11 @@ jobs:
 
       - name: deploy
         uses: aws-actions/aws-cloudformation-github-deploy@v1
-        env:
-          deploymentBucket = ${deploymentBucket}
-          lambdaZipPath=${lambdaZipPath}
+        # env:
+        #   deploymentBucket = ${deploymentBucket}
+        #   lambdaZipPath=${lambdaZipPath}
         with:
           name: iata-case-study-using-cdf
           capabilities: CAPABILITY_NAMED_IAM
           template: iata-case-study-using-cdf.yaml
-          parameter-overrides: "lambdaZipPath=${lambdaZipPath},deploymentBucket=${deploymentBucket}"
+          parameter-overrides: "lambdaZipPath=${{lambdaZipPath}},deploymentBucket=${{deploymentBucket}}"
