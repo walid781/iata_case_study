@@ -16,7 +16,7 @@ job = Job(glueContext)
 job.init(args['JOB_NAME'], args)
 
 
-spark.sql(f'use {args["dataBase"]};')
+spark.sql(f'use `{args["dataBase"]}`;')
 df = spark.read.table(args['csvTable'])
 df_columns = df.columns
 
