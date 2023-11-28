@@ -295,7 +295,7 @@ Resources:
             - CrawlerName: !Ref GlueCrawler
               CrawlState: SUCCEEDED
               # JobName: String
-              # LogicalOperator: String
+              LogicalOperator: EQUALS
               State: SUCCEEDED
           Logical: ANY
 
