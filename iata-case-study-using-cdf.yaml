@@ -251,7 +251,7 @@ Resources:
       # NonOverridableArguments: Json
       # NotificationProperty: 
       #   NotificationProperty
-      NumberOfWorkers: 1
+      NumberOfWorkers: 2
       Role: !GetAtt 
         - GlueRole
         - Arn
