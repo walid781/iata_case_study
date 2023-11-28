@@ -245,12 +245,12 @@ Resources:
       # Connections: 
       #   ConnectionsList
       DefaultArguments: 
-        --dataBucket: !FindInMap [ nameing, dataBucket, name]
-        --dataBase: iata-case-study
-        --csvTable: table_iataraw
+        dataBucket: !FindInMap [ nameing, dataBucket, name]
+        dataBase: iata-case-study
+        csvTable: table_iataraw
         --enable-metrics: true
         --enable-spark-ui: true
-        --enable-job-insights: false
+        --enable-job-insights: true
         --enable-glue-datacatalog: true
         --enable-continuous-cloudwatch-log: true
         --job-language: python
