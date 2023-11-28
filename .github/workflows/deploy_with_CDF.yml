@@ -49,9 +49,8 @@ jobs:
 
       - name: create and upload package
         run: |
-          zip -ur lambdas.zip lambdas/data_extraction
-          zip -ur lambdas.zip lambdas/data_ingestion
-          zip -ur lambdas.zip lambdas/utils
+          cd lambdas
+          zip -ur lambdas.zip .
           aws s3 cp lambdas.zip s3://$deploymentBucket/$lambdaZipPath
   deploy:
     runs-on: ubuntu-latest
