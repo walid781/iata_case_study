@@ -47,11 +47,15 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: eu-central-1
 
-      - name: create and upload package
+      - name: create and upload lambda package
         run: |
           cd lambdas
           zip -ur lambdas.zip .
           aws s3 cp lambdas.zip s3://$deploymentBucket/$lambdaZipPath
+      
+      - name: upload ETL scripts
+        run: |
+          aws s3 cp ETL s3://$deploymentBucket/ETL --recursive
   deploy:
     runs-on: ubuntu-latest
     needs: build_and_test
