@@ -203,8 +203,8 @@ Resources:
     Properties:
       # Classifiers: 
       #   - String
-      Configuration: String
-      CrawlerSecurityConfiguration: String
+      # Configuration: String
+      # CrawlerSecurityConfiguration: String
       DatabaseName: iata-case-study
       Description: Load Raw data
       Name: iata-case-study-crawler
