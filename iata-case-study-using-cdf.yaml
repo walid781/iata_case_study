@@ -251,7 +251,7 @@ Resources:
       # NonOverridableArguments: Json
       # NotificationProperty: 
       #   NotificationProperty
-      NumberOfWorkers: 2
+      # NumberOfWorkers: 2
       Role: !GetAtt 
         - GlueRole
         - Arn
@@ -259,7 +259,7 @@ Resources:
       # Tags: 
       #   - Tag
       Timeout: 30
-      WorkerType: G.025X
+      # WorkerType: G.025X
 
 
 Outputs:
