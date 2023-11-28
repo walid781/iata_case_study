@@ -238,7 +238,8 @@ Resources:
 
       # Connections: 
       #   ConnectionsList
-      # DefaultArguments: Json
+      DefaultArguments: 
+        dataBucket: !FindInMap [ nameing, dataBucket, name]
       Description: Transform csv table to parquet
       # ExecutionClass: String
       ExecutionProperty: 
