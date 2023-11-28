@@ -236,7 +236,7 @@ Resources:
     Properties:
       # AllocatedCapacity: Number
       Command: 
-          Name: csv_to_parquet
+          Name: csv_to_parquet_script
           PythonVersion: 3.9
           ScriptLocation: !Sub 
             - 's3://${deploymentBucket}/ETL/csv_to_parquet.py'
