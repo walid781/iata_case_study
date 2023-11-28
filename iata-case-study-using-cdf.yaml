@@ -254,8 +254,8 @@ Resources:
         --enable-glue-datacatalog: true
         --enable-continuous-cloudwatch-log: true
         --job-language: python
-        --job-bookmark-option: 	job-bookmark-disable
-        --spark-event-logs-path:	s3://s3-iata-case-study-deployment-bucket/sparkHistoryLogs/
+        --job-bookmark-option: job-bookmark-disable
+        --spark-event-logs-path: s3://s3-iata-case-study-deployment-bucket/sparkHistoryLogs/
         --TempDir:	s3://s3-iata-case-study-deployment-bucket/temporary/
       Description: Transform csv table to parquet
       # ExecutionClass: String
