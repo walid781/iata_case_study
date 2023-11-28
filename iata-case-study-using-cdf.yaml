@@ -201,8 +201,8 @@ Resources:
   GlueCrawler:
     Type: AWS::Glue::Crawler
     Properties:
-      Classifiers: 
-        - String
+      # Classifiers: 
+      #   - String
       Configuration: String
       CrawlerSecurityConfiguration: String
       DatabaseName: iata-case-study
