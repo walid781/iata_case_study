@@ -293,7 +293,7 @@ Resources:
       Predicate: 
           Conditions: 
             - CrawlerName: !Ref GlueCrawler
-              CrawlState: READY
+              CrawlState: SUCCEEDED
               # JobName: String
               LogicalOperator: EQUALS
               State: SUCCEEDED
