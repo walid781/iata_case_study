@@ -225,40 +225,41 @@ Resources:
             - 's3://${dataBucket}/RAW'
             - dataBucket: !FindInMap [ nameing, dataBucket, name]
 
-  Type: AWS::Glue::Job
-  Properties:
-    # AllocatedCapacity: Number
-    Command: 
-        Name: csv_to_parquet
-        PythonVersion: 3.11
-        ScriptLocation: !Sub 
-          - 's3://${deploymentBucket}/ETL/csv_to_parquet.py'
-          - deploymentBucket: !Ref deploymentBucket
+  GlueCsvToParquetJob:
+    Type: AWS::Glue::Job
+    Properties:
+      # AllocatedCapacity: Number
+      Command: 
+          Name: csv_to_parquet
+          PythonVersion: 3.11
+          ScriptLocation: !Sub 
+            - 's3://${deploymentBucket}/ETL/csv_to_parquet.py'
+            - deploymentBucket: !Ref deploymentBucket
 
-    # Connections: 
-    #   ConnectionsList
-    # DefaultArguments: Json
-    Description: Transform csv table to parquet
-    # ExecutionClass: String
-    # ExecutionProperty: 
-    #   ExecutionProperty
-    # GlueVersion: String
-    # LogUri: String
-    # MaxCapacity: Number
-    # MaxRetries: Number
-    Name: csv_to_parquet
-    # NonOverridableArguments: Json
-    # NotificationProperty: 
-    #   NotificationProperty
-    NumberOfWorkers: 1
-    Role: !GetAtt 
-      - GlueRole
-      - Arn
-    # SecurityConfiguration: String
-    # Tags: 
-    #   - Tag
-    Timeout: 30
-    # WorkerType: String
+      # Connections: 
+      #   ConnectionsList
+      # DefaultArguments: Json
+      Description: Transform csv table to parquet
+      # ExecutionClass: String
+      # ExecutionProperty: 
+      #   ExecutionProperty
+      # GlueVersion: String
+      # LogUri: String
+      # MaxCapacity: Number
+      # MaxRetries: Number
+      Name: csv_to_parquet
+      # NonOverridableArguments: Json
+      # NotificationProperty: 
+      #   NotificationProperty
+      NumberOfWorkers: 1
+      Role: !GetAtt 
+        - GlueRole
+        - Arn
+      # SecurityConfiguration: String
+      # Tags: 
+      #   - Tag
+      Timeout: 30
+      # WorkerType: String
 
 
 Outputs:
