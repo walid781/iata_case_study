@@ -231,7 +231,7 @@ Resources:
       # AllocatedCapacity: Number
       Command: 
           Name: csv_to_parquet
-          PythonVersion: 3.11
+          PythonVersion: 3.9
           ScriptLocation: !Sub 
             - 's3://${deploymentBucket}/ETL/csv_to_parquet.py'
             - deploymentBucket: !Ref deploymentBucket
