@@ -261,7 +261,7 @@ Resources:
       # ExecutionClass: String
       ExecutionProperty: 
         MaxConcurrentRuns: 1
-      # GlueVersion: String
+      GlueVersion: 4.0
       # LogUri: String
       MaxCapacity: 1
       # MaxRetries: Number
