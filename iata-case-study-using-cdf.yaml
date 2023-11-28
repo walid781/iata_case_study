@@ -248,6 +248,7 @@ Resources:
         --dataBucket: !FindInMap [ nameing, dataBucket, name]
         --dataBase: iata-case-study
         --csvTable: table_iataraw
+        --toto: titi
         --enable-metrics: true
         --enable-spark-ui: true
         --enable-job-insights: true
