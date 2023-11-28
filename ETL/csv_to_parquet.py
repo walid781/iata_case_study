@@ -6,9 +6,7 @@ from awsglue.context import GlueContext
 from awsglue.job import Job
 
 
-        
-
-args = getResolvedOptions(sys.argv, ['JOB_NAME', 'dataBucket'])
+args = getResolvedOptions(sys.argv, ['JOB_NAME', 'dataBucket', 'dataBase', 'csvTable'])
 
 sc = SparkContext()
 glueContext = GlueContext(sc)
@@ -16,10 +14,11 @@ logger = glueContext.get_logger()
 spark = glueContext.spark_session
 job = Job(glueContext)
 job.init(args['JOB_NAME'], args)
-df = spark.read.table('test_glue_crawler.csvraw')
-df_columns = df.columns
 
-spark.sql('use test_glue_crawler;')
+
+spark.sql(f'use {args["dataBase"]};')
+df = spark.read.table(args['csvTable'])
+df_columns = df.columns
 
 df.write \
     .format("parquet") \

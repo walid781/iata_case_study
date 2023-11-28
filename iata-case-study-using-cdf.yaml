@@ -240,6 +240,8 @@ Resources:
       #   ConnectionsList
       DefaultArguments: 
         dataBucket: !FindInMap [ nameing, dataBucket, name]
+        dataBase: iata-case-study
+        csvTable: table_iataraw
       Description: Transform csv table to parquet
       # ExecutionClass: String
       ExecutionProperty: 
