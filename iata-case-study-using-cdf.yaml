@@ -236,7 +236,7 @@ Resources:
     Properties:
       # AllocatedCapacity: Number
       Command: 
-          Name: pythonshell
+          Name: glueetl
           PythonVersion: 3.9
           ScriptLocation: !Sub 
             - 's3://${deploymentBucket}/ETL/csv_to_parquet.py'
