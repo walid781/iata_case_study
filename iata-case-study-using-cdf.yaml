@@ -279,6 +279,35 @@ Resources:
       #   - Tag
       Timeout: 30
       # WorkerType: G.025X
+  GlueJobTrigger:
+    Type: AWS::Glue::Trigger
+    Properties:
+      Actions: 
+        - JobName: !Ref GlueCsvToParquetJob
+          # CrawlerName: !Ref GlueCrawler
+          
+      Description: Trigger Glue job on success of crawler
+      # EventBatchingCondition: 
+      #   EventBatchingCondition
+      Name: GlueCsvToParquetJobTrigger
+      Predicate: 
+          Conditions: 
+            - CrawlerName: !Ref GlueCrawler
+              CrawlState: SUCCEEDED
+              # JobName: String
+              # LogicalOperator: String
+              State: SUCCEEDED
+          Logical: ANY
+
+      # Schedule: String
+      # StartOnCreation: Boolean
+      # Tags: 
+      #   - Tag
+      Type: CONDITIONAL 
+      # WorkflowName: String
+
+    
+
 
 
 Outputs:
