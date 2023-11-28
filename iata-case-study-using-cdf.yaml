@@ -241,8 +241,8 @@ Resources:
       # DefaultArguments: Json
       Description: Transform csv table to parquet
       # ExecutionClass: String
-      # ExecutionProperty: 
-      #   ExecutionProperty
+      ExecutionProperty: 
+        MaxConcurrentRuns: 1
       # GlueVersion: String
       # LogUri: String
       # MaxCapacity: Number
