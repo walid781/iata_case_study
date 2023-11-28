@@ -289,7 +289,7 @@ Resources:
       Description: Trigger Glue job on success of crawler
       # EventBatchingCondition: 
       #   EventBatchingCondition
-      Name: GlueCsvToParquetJobTrigger
+      Name: GlueCsvToParquetJobTriggerV2
       Predicate: 
           Conditions: 
             - CrawlerName: !Ref GlueCrawler
