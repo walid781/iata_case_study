@@ -35,7 +35,7 @@ Resources:
     Properties:
       Code:
         S3Bucket: s3-iata-case-study-deployment-bucket
-        S3Key: package/lambdas.zip
+        S3Key: package/lambda.zip
       Handler: data_ingestion.handler.lambda_handler
       Runtime: python3.11
       FunctionName: !Sub 
@@ -64,7 +64,7 @@ Resources:
     Properties:
       Code:
         S3Bucket: s3-iata-case-study-deployment-bucket
-        S3Key: package/lambdas.zip
+        S3Key: package/lambda.zip
       Handler: data_extraction.handler.lambda_handler
       Runtime: python3.11
       FunctionName: !Sub 
