@@ -74,7 +74,7 @@ Resources:
       Timeout: 300
       Environment:
         Variables:
-          BUCKET_NAME: s3-walid-iata-case-study
+          BUCKET_NAME: !FindInMap [ nameing, dataBucket, name]
           ZIP_PATH: ZIP/
           RAW_PATH: RAW/
           CLEANED_PATH: CLEANED/
