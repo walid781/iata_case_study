@@ -197,6 +197,12 @@ Resources:
                   - !Sub 
                     - 'arn:aws:s3:::${dataBucket}/*'
                     - dataBucket: !FindInMap [ nameing, dataBucket, name]
+                  - !Sub 
+                    - 'arn:aws:s3:::${deploymentBucket}'
+                    - deploymentBucket: !Ref deploymentBucket
+                  - !Sub 
+                    - 'arn:aws:s3:::${deploymentBucket}/*'
+                    - deploymentBucket: !Ref deploymentBucket
 
   GlueCrawler:
     Type: AWS::Glue::Crawler
