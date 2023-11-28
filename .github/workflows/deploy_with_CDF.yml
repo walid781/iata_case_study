@@ -88,4 +88,4 @@ jobs:
           name: iata-case-study-using-cdf
           capabilities: CAPABILITY_NAMED_IAM
           template: iata-case-study-using-cdf.yaml
-          parameter-overrides: "lambdaZipPath=$lambdaZipPath,deploymentBucket=$deploymentBucket"
+          parameter-overrides: "lambdaZipPath=${lambdaZipPath},deploymentBucket=${deploymentBucket}"

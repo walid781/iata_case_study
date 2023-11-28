@@ -259,7 +259,7 @@ Resources:
       # Tags: 
       #   - Tag
       Timeout: 30
-      # WorkerType: String
+      WorkerType: G.025X
 
 
 Outputs:
