@@ -167,7 +167,7 @@ Resources:
     Type: 'AWS::IAM::Role'
     Properties:
       RoleName: !Sub 
-        - '${role_prefix}-lambda-role'
+        - '${role_prefix}-glue-role'
         - role_prefix: !FindInMap [ nameing, role, prefix]
       AssumeRolePolicyDocument:
         Version: 2012-10-17
