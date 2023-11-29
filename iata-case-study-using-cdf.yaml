@@ -34,8 +34,8 @@ Resources:
     Type: 'AWS::Lambda::Function'
     Properties:
       Code:
-        S3Bucket: s3-iata-case-study-deployment-bucket
-        S3Key: package/lambdas.zip
+        S3Bucket: !Ref deploymentBucket
+        S3Key: !Ref lambdaZipPath
       Handler: data_ingestion.handler.lambda_handler
       Runtime: python3.11
       FunctionName: !Sub 
@@ -63,8 +63,8 @@ Resources:
     Type: 'AWS::Lambda::Function'
     Properties:
       Code:
-        S3Bucket: s3-iata-case-study-deployment-bucket
-        S3Key: package/lambdas.zip
+        S3Bucket: !Ref deploymentBucket
+        S3Key: !Ref lambdaZipPath
       Handler: data_extraction.handler.lambda_handler
       Runtime: python3.11
       FunctionName: !Sub 

@@ -16,17 +16,17 @@ job = Job(glueContext)
 job.init(args['JOB_NAME'], args)
 
 
-spark.sql(f'use `{args["dataBase"]}`;')
-df = spark.read.table(args['csvTable'])
-df_columns = df.columns
+# spark.sql(f'use `{args["dataBase"]}`;')
+# df = spark.read.table(args['csvTable'])
+# df_columns = df.columns
 
-df.write \
-    .format("parquet") \
-    .mode("overwrite") \
-    .option("overwriteSchema", "true") \
-    .option("path", f"s3://{args['dataBucket']}/sales_records.parquet/")\
-    .partitionBy('country')\
-    .saveAsTable('sales_records')
+# df.write \
+#     .format("parquet") \
+#     .mode("overwrite") \
+#     .option("overwriteSchema", "true") \
+#     .option("path", f"s3://{args['dataBucket']}/sales_records.parquet/")\
+#     .partitionBy('country')\
+#     .saveAsTable('sales_records')
 
 
 

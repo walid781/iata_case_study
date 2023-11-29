@@ -5,12 +5,12 @@ from io import BytesIO
 url = 'https://eforexcel.com/wp/wp-content/uploads/2020/09/2m-Sales-Records.zip'
 bucket_name = os.getenv('BUCKET_NAME')
 
-headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}
-
+glue_client = boto3.client('glue')	
+crawler_trigger_name = os.getenv('GLUE_CRAWLER_TRIGGER')
 
 def lambda_handler(event, context):
    
-
+    extracted_file_number = 0
     for record in event['Records']:
         source_bucket_name = record['s3']['bucket']['name']
         object_key = record['s3']['object']['key']
@@ -26,7 +26,13 @@ def lambda_handler(event, context):
                 f'{os.getenv("RAW_PATH")}{filename}',
                 z.open(filename)
             )
+            extracted_file_number += 1
 
+
+    if extracted_file_number:
+        glue_client.start_trigger(
+            Name=crawler_trigger_name
+        )
 
 
     response = {
