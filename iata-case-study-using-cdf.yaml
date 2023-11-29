@@ -169,10 +169,11 @@ Resources:
               - Effect: Allow
                 Action:
                   - 'glue:StartTrigger'
-                Resource:
-                  - !GetAtt
-                    - GlueCrawlerTrigger
-                    - Arn
+                Resource: 
+                  - !Sub 
+                    - 'arn:aws:glue::{accountId}:trigger/{triggerName}'
+                    - triggerName: !Ref GlueCrawlerTrigger
+                    - accountId: !Ref AWS::AccountId
                 
 
 
