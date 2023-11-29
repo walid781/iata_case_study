@@ -171,9 +171,8 @@ Resources:
                   - 'glue:StartTrigger'
                 Resource: 
                   - !Sub 
-                    - 'arn:aws:glue::{accountId}:trigger/{triggerName}'
+                    - 'arn:aws:glue:::trigger/{triggerName}'
                     - triggerName: !Ref GlueCrawlerTrigger
-                    - accountId: !Ref AWS::AccountId
                 
 
 
