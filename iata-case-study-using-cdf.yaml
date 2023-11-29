@@ -79,6 +79,7 @@ Resources:
           RAW_PATH: RAW/
           CLEANED_PATH: CLEANED/
           LOG_LEVEL: INFO
+          GLUE_CRAWLER_TRIGGER: !Ref GlueCrawlerTrigger
       Role: !GetAtt 
         - lambdaRole
         - Arn
@@ -159,6 +160,20 @@ Resources:
                   - !Sub 
                     - 'arn:aws:s3:::${dataBucket}/*'
                     - dataBucket: !FindInMap [ nameing, dataBucket, name]
+        - PolicyName: !Sub 
+          - '${policy_prefix}-start-glue-trigger'
+          - policy_prefix: !FindInMap [ nameing, policy, prefix]
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 'glue:StartTrigger'
+                Resource:
+                  - !GetAtt
+                    - GlueCrawlerTrigger
+                    - Arn
+                
 
 
 
@@ -204,6 +219,39 @@ Resources:
                     - 'arn:aws:s3:::${deploymentBucket}/*'
                     - deploymentBucket: !Ref deploymentBucket
 
+  
+
+  
+
+
+    
+# GlueCrawler:
+#     Type: AWS::Glue::Crawler
+#     Properties:
+#       # Classifiers: 
+#       #   - String
+#       # Configuration: String
+#       # CrawlerSecurityConfiguration: String
+#       DatabaseName: iata-case-study
+#       Description: Load Raw data
+#       Name: iata-case-study-crawler
+#       # RecrawlPolicy: 
+#       #   RecrawlPolicy
+#       Role: !GetAtt 
+#         - GlueRole
+#         - Arn
+#       # Schedule: 
+#       #   Schedule
+#       # SchemaChangePolicy: 
+#       #   SchemaChangePolicy
+#       TablePrefix: table_iata
+
+#       Targets:
+#         S3Targets:
+#           - Path: !Sub 
+#             - 's3://${dataBucket}/RAW'
+#             - dataBucket: !FindInMap [ nameing, dataBucket, name]
+
   GlueCrawler:
     Type: AWS::Glue::Crawler
     Properties:
@@ -213,7 +261,7 @@ Resources:
       # CrawlerSecurityConfiguration: String
       DatabaseName: iata-case-study
       Description: Load Raw data
-      Name: iata-case-study-crawler
+      Name: iata-case-study-crawler-cdf
       # RecrawlPolicy: 
       #   RecrawlPolicy
       Role: !GetAtt 
@@ -230,6 +278,55 @@ Resources:
           - Path: !Sub 
             - 's3://${dataBucket}/RAW'
             - dataBucket: !FindInMap [ nameing, dataBucket, name]
+
+  # GlueCsvToParquetJob:
+  #   Type: AWS::Glue::Job
+  #   Properties:
+  #     # AllocatedCapacity: Number
+  #     Command: 
+  #         Name: glueetl
+  #         PythonVersion: 3
+  #         ScriptLocation: !Sub 
+  #           - 's3://${deploymentBucket}/ETL/csv_to_parquet.py'
+  #           - deploymentBucket: !Ref deploymentBucket
+
+  #     # Connections: 
+  #     #   ConnectionsList
+  #     DefaultArguments: 
+  #       --dataBucket: !FindInMap [ nameing, dataBucket, name]
+  #       --dataBase: iata-case-study
+  #       --csvTable: table_iataraw
+  #       --toto: titi
+  #       --enable-metrics: true
+  #       --enable-spark-ui: true
+  #       --enable-job-insights: true
+  #       --enable-glue-datacatalog: true
+  #       --enable-continuous-cloudwatch-log: true
+  #       --job-language: python
+  #       --job-bookmark-option: job-bookmark-disable
+  #       --spark-event-logs-path: s3://s3-iata-case-study-deployment-bucket/sparkHistoryLogs/
+  #       --TempDir: s3://s3-iata-case-study-deployment-bucket/temporary/
+  #     Description: Transform csv table to parquet
+  #     ExecutionClass: STANDARD
+  #     ExecutionProperty: 
+  #       MaxConcurrentRuns: 1
+  #     GlueVersion: 4.0
+  #     # LogUri: String
+  #     MaxCapacity: 1
+  #     # MaxRetries: Number
+  #     Name: csv_to_parquet
+  #     # NonOverridableArguments: Json
+  #     # NotificationProperty: 
+  #     #   NotificationProperty
+  #     # NumberOfWorkers: 2
+  #     Role: !GetAtt 
+  #       - GlueRole
+  #       - Arn
+  #     # SecurityConfiguration: String
+  #     # Tags: 
+  #     #   - Tag
+  #     Timeout: 30
+  #     # WorkerType: G.025X
 
   GlueCsvToParquetJob:
     Type: AWS::Glue::Job
@@ -266,7 +363,7 @@ Resources:
       # LogUri: String
       MaxCapacity: 1
       # MaxRetries: Number
-      Name: csv_to_parquet
+      Name: job_csv_to_parquet_cdf
       # NonOverridableArguments: Json
       # NotificationProperty: 
       #   NotificationProperty
@@ -279,6 +376,17 @@ Resources:
       #   - Tag
       Timeout: 30
       # WorkerType: G.025X
+      
+      
+  GlueWorkflow:
+    Type: AWS::Glue::Workflow
+    Properties:
+    #   DefaultRunProperties: Json
+    #   Description: String
+      MaxConcurrentRuns: 1
+      Name: glue-workflow-cdf
+  
+
   GlueJobTrigger:
     Type: AWS::Glue::Trigger
     Properties:
@@ -289,7 +397,7 @@ Resources:
       Description: Trigger Glue job on success of crawler
       # EventBatchingCondition: 
       #   EventBatchingCondition
-      Name: GlueCsvToParquetJobTriggerV2
+      Name: GlueCsvToParquetJobTrigger
       Predicate: 
           Conditions: 
             - CrawlerName: !Ref GlueCrawler
@@ -300,14 +408,29 @@ Resources:
           Logical: ANY
 
       # Schedule: String
-      # StartOnCreation: Boolean
+      StartOnCreation: true
       # Tags: 
       #   - Tag
       Type: CONDITIONAL 
-      # WorkflowName: String
+      WorkflowName: !Ref GlueWorkflow
+      
+  GlueCrawlerTrigger:
+    Type: AWS::Glue::Trigger
+    Properties:
+      Actions: 
+        - CrawlerName: !Ref GlueCrawler
+          
+      Description: Trigger Glue crawler
+      # EventBatchingCondition: 
+      #   EventBatchingCondition
+      Name: TrigCrawlerOnDemand
 
-    
-
+      # Schedule: String
+      # StartOnCreation: Boolean
+      # Tags: 
+      #   - Tag
+      Type: ON_DEMAND  
+      WorkflowName: !Ref GlueWorkflow
 
 
 Outputs:
