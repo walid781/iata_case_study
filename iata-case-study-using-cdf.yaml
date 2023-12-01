@@ -115,7 +115,7 @@ Resources:
       FunctionName: !Sub 
         - '${lambda_prefix}-data-transformation'
         - lambda_prefix: !FindInMap [ nameing, lambda, prefix]
-      MemorySize: 1024
+      MemorySize: 2048
       Timeout: 300
       Environment:
         Variables:

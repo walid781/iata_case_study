@@ -9,7 +9,8 @@ def lambda_handler(event, context):
    
     for record in event['Records']:
         source_bucket_name = record['s3']['bucket']['name']
-        object_key = record['s3']['object']['key']
+        object_key = record['s3']['object']['key'].replace('+', ' ')
+
 
         s3_object = s3_utils.get_object(bucket_name=source_bucket_name, filename=object_key)
     
