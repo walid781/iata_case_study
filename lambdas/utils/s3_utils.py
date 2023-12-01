@@ -1,4 +1,4 @@
-import boto3, json
+import boto3, json, os
 from botocore.exceptions import ClientError
 from utils.my_logger import get_logger
 
@@ -33,3 +33,12 @@ def set_object_as_json(bucket_name, filename, latest_ingestion):
     put_object(bucket_name, filename, json.dumps(latest_ingestion, indent = 2).encode("ascii"))
     
 
+def upload_fileobj(filename, bucket_name, object_key):
+    s3.meta.client.upload_file(filename, bucket_name, object_key)
+    
+
+def uploadDirectory(path, bucket_name, s3_folder_path):
+        for root,dirs,files in os.walk(path):
+            for file in files:
+                target_root = root.replace('%20', ' ').replace(path, s3_folder_path)
+                upload_fileobj(os.path.join(root,file),bucket_name,f"{target_root}/{file}")

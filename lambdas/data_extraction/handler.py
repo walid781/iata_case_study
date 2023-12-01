@@ -2,7 +2,6 @@ import json, os, boto3, zipfile
 from utils import s3_utils
 from io import BytesIO
 
-url = 'https://eforexcel.com/wp/wp-content/uploads/2020/09/2m-Sales-Records.zip'
 bucket_name = os.getenv('BUCKET_NAME')
 
 glue_client = boto3.client('glue')	
@@ -43,18 +42,4 @@ def lambda_handler(event, context):
     return response
 
 
-#This will give you list of files in the folder you mentioned as prefix
-# s3_resource = boto3.resource('s3')
-# #Now create zip object one by one, this below is for 1st file in file_list
-# zip_obj = s3_resource.Object(bucket_name=bucket, key=file_list[0])
-# print (zip_obj)
-# buffer = BytesIO(zip_obj.get()["Body"].read())
-
-# z = zipfile.ZipFile(buffer)
-# for filename in z.namelist():
-#     file_info = z.getinfo(filename)
-#     s3_resource.meta.client.upload_fileobj(
-#         z.open(filename),
-#         Bucket=bucket,
-        # Key='result_files/' + f'{filename}')
     
