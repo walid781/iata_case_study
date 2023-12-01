@@ -167,17 +167,17 @@ Resources:
                     Value: ZIP/
                   - Name: suffix
                     Value: .zip
-          - Event: s3:ObjectCreated:*
-            Function: !GetAtt
-              - LambdaDataTransformation
-              - Arn
-            Filter:
-              S3Key:
-                Rules:
-                  - Name: prefix
-                    Value: RAW/
-                  - Name: suffix
-                    Value: .csv
+          # - Event: s3:ObjectCreated:*
+          #   Function: !GetAtt
+          #     - LambdaDataTransformation
+          #     - Arn
+          #   Filter:
+          #     S3Key:
+          #       Rules:
+          #         - Name: prefix
+          #           Value: RAW/
+          #         - Name: suffix
+          #           Value: .csv
     DeletionPolicy: Retain
   
   
