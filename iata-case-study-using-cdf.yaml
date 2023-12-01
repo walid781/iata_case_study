@@ -110,7 +110,7 @@ Resources:
       Code:
         S3Bucket: !Ref deploymentBucket
         S3Key: !Ref lambdaZipPath
-      Handler: data_extraction.handler.lambda_handler
+      Handler: data_transformation.handler.lambda_handler
       Runtime: python3.11
       FunctionName: !Sub 
         - '${lambda_prefix}-data-transformation'
