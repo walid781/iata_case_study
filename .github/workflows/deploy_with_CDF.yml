@@ -3,7 +3,7 @@ name: Deploy with CDF
 
 env:
   deploymentBucket: 's3-iata-case-study-deployment-bucket'
-  lambdaZipPath: 'package/lambda.zip'
+  lambdaZipPath: 'package/lambdas.zip'
 
 # Controls when the workflow will run
 on:
